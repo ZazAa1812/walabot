@@ -42,12 +42,6 @@ def DataCollect():
 
     # Start the Walabot device
     wlbt.Start()
-    # calibrates scanning to ignore or reduce the signals
-    # wlbt.StartCalibration()
-    # while True:
-    #     appStatus, calibrationProcess = wlbt.GetStatus()
-
-    #defining Publisher
     pub = rospy.Publisher('rawSignal', rawSignal, queue_size=4096)
     rospy.init_node('walabotRawSignal', anonymous=True)
     
