@@ -3,7 +3,7 @@ import rospy
 from walabot.msg import rawSignal
 
 def callback(data):
-    rospy.loginfo(data.time)
+    rospy.loginfo(data.amplitude)
 
 def processRawSignal():
     rospy.init_node('processRawSignal', anonymous=True)

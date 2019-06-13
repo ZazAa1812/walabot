@@ -42,7 +42,7 @@ def DataCollect():
 
     # Start the Walabot device
     wlbt.Start()
-    pub = rospy.Publisher('rawSignal', rawSignal, queue_size=4096)
+    pub = rospy.Publisher('rawSignal', rawSignal, queue_size=100)
     rospy.init_node('walabotRawSignal', anonymous=True)
     
  
@@ -59,7 +59,7 @@ def DataCollect():
 if __name__ == '__main__':
     try:
         DataCollect()
-    except rospy.ROSInterruptException:
+    except KeyboardInterrupt or rospy.ROSInterruptException:
         pass
 
     wlbt.Stop()
