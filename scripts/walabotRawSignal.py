@@ -54,7 +54,7 @@ def DataCollect():
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = targets[0]
         pub.publish(rawSignalArray)
-        rospy.loginfo(rawSignalArray)
+        rospy.loginfo(rawSignalArray.amplitude)
 
 if __name__ == '__main__':
     try:
