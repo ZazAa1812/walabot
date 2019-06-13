@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float32MultiArray
+from walabot.msg import rawSignal
 
 def callback(data):
-    rospy.loginfo(data.data)
+    rospy.loginfo(data.time)
 
 def processRawSignal():
     rospy.init_node('processRawSignal', anonymous=True)
-    rospy.Subscriber("rawSignal", Float32MultiArray, callback,queue_size=4096)
+    rospy.Subscriber("rawSignal", rawSignal, callback)
     rospy.spin()
         
 if __name__ == '__main__':
