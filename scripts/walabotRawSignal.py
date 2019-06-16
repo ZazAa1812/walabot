@@ -16,16 +16,7 @@ wlbt = load_source('WalabotAPI', modulePath)
 wlbt.Init()
 
 def DataCollect():
-    #number of antenna
-    ant = 1
-    #Declare background and summation zero array for calibration
-    background = []
-    summation = []
-    newAmplitude = [[0]] * ant
-    signal_list = [[0]] * ant
-    #Antenna pair number
     num = 4
-
      # wlbt.SetArenaX - input parameters
     xArenaMin, xArenaMax, xArenaRes = -10, 10, 0.5
     # wlbt.SetArenaY - input parameters
@@ -59,33 +50,56 @@ def DataCollect():
     pub = rospy.Publisher('rawSignal', rawSignal, queue_size=100)
     rospy.init_node('walabotRawSignal', anonymous=True)
     
-    # Calibrating based on DataCollection code by People and Fall Detection, https://www.hackster.io/42748/people-and-fall-detection-with-walabot-8db4aa
-    # Will be updated later
+    #Calibrating#
     print("Calibrating")
-    for i in range(10):
-        wlbt.Trigger()
-        targets = wlbt.GetSignal((pair[num]))
-        background.append(targets[0])
-    background = np.asarray(background)
-    summation.append(background[0] + background[0 + ant] + background[0 + (ant * 2)] + background[0 + (ant * 3)] + background[0 + (ant * 4)] + background[0 + (ant * 5)] + background[0 + (ant * 6)] + background[0 + (ant * 7)] + background[0 + (ant * 8)] + background[0 + (ant * 9)])
-    summation = np.asarray(summation)
-    averageBackground = summation/10
-    print("Calibration Complete")
-
-    #Processing rawData by removing background noise and publish the data
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background1 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background2 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background3 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background4 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background5 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background6 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background7 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background8 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background9 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[num]))
+    background10 = targets[0]
+    #calculate average background noise
+    averagebackground = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
+    #convert np.array to list for publishing
+    #averagebackground = temp.tolist()
+    #print(averagebackground)
+    
+ 
     while not rospy.is_shutdown():
         rospy.sleep(2.0)
         wlbt.Trigger()
-        del signal_list[0:ant]
         targets = wlbt.GetSignal((pair[num]))
-        signal_list.append(targets[0])
-        newAmplitude = signal_list - averageBackground
-        print(newAmplitude)
+        tempNewAmplitude = np.asarray(targets[0]) - averagebackground
+        newAmplitude = tempNewAmplitude.tolist()
         rawSignalArray = rawSignal()
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
         pub.publish(rawSignalArray)
-        #rospy.loginfo(rawSignalArray.amplitude)
+        rospy.loginfo(rawSignalArray.amplitude)
 
 if __name__ == '__main__':
     try:
