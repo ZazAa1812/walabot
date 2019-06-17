@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 dist = 0
 x = []
 y = []
+zsa = []
 
 def callback(data):
-    global line1,x,y
+    global line1,x,y,zsa
 
     raw = np.asarray(data.amplitude)
     temp = abs(raw)
@@ -17,15 +18,19 @@ def callback(data):
     tempDist = xdistance()
     x.append(tempDist)
     y.append(amp)
+    a = np.random.rand(1,6)
+    print a
+    # zsa.append(a)
     # Plotting
     plt.ion()
     plt.clf()
     plt.plot()
-    plt.pcolor(y)
+    plt.pcolor(a)
     plt.title('default')
     plt.tight_layout()
+    plt.pause(0.5)
     plt.show()
-    zsa = np.random.rand(6,2)
+
     print zsa
     print x
     print len(y)
