@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 import rospy
 from walabot.msg import rawSignal
-from walabot.msg import processData
 import matplotlib.pyplot as plt
 import numpy as np
-
-processed_data = []
-pub = rospy.Publisher('processedAbsAscanData',processData,queue_size = 1000)
-start_flag = False
 
 def callback(data):
     global start_flag, processed_data
@@ -37,24 +32,13 @@ def callback(data):
     plt.subplots_adjust(hspace=0.5)
     plt.draw()
     plt.pause(0.01)
-    if(not start_flag):
-        start_flag = True
-
-def pub_callback():
-    global start_flag, pub, processed_data
-    if(start_flag):
-        pub.publish(processed_data)
-        print("Processed data published")
 
 def processAscan():
     rospy.init_node('processAscan', anonymous=True)
-    while not rospy.is_shutdown():
-        rospy.Subscriber("rawSignal", rawSignal, callback)
-        # Will ensure processed data being published every 0.5 sec
-        pub_callback()
-        plt.ion()
-        plt.show()
-        rospy.sleep(1)
+    rospy.Subscriber("rawSignal", rawSignal, callback)
+    plt.ion()
+    plt.show()
+    rospy.spin()
         
 if __name__ == '__main__':
     print('Running')
