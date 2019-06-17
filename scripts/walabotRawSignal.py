@@ -6,7 +6,7 @@ from os import system
 from imp import load_source
 from os.path import join
 import rospy
-from walabot.msg import rawSignal
+from walabot.msg import signal
 import numpy as np
 
 modulePath = join('/usr', 'share', 'walabot', 'python', 'WalabotAPI.py')
@@ -48,10 +48,10 @@ def DataCollect():
 
     # Start the Walabot device
     wlbt.Start()
-    pub = rospy.Publisher('rawSignal', rawSignal, queue_size=100)
+    pub = rospy.Publisher('rawSignal', signal, queue_size=100)
     rospy.init_node('walabotRawSignal', anonymous=True)
     
-    #Calibrating#
+    ################Calibrating#######################
     print("Calibrating")
     # Calibrating pair 1
     wlbt.Trigger()
@@ -120,7 +120,9 @@ def DataCollect():
     averagebackgroundpair2 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
 
     print("Calibration complete")
- 
+    ##########End Calibration#########
+    
+    ###########Main Function##########
     while not rospy.is_shutdown():
         rospy.sleep(2.0)
         wlbt.Trigger()
@@ -134,15 +136,17 @@ def DataCollect():
         tempNewAmplitude = (tempNewAmplitude1 + tempNewAmplitude2)/2
         newAmplitude = tempNewAmplitude.tolist()
         # Make raw signal object to contain message
-        rawSignalArray = rawSignal()
+        rawSignalArray = signal()
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
         # Publishing average raw signal data between two pair with background noise remove
         pub.publish(rawSignalArray)
-        maxRaw = max(newAmplitude)
-        minRaw = min(newAmplitude)
-        rospy.loginfo(maxRaw)
-        rospy.loginfo(minRaw)
+        print("Publising raw signal data")
+        # Checking for max. Just testing to calculate depth
+        # maxRaw = max(newAmplitude)
+        # minRaw = min(newAmplitude)
+        # rospy.loginfo(maxRaw)
+        # rospy.loginfo(minRaw)
 
 if __name__ == '__main__':
     try:

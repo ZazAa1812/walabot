@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from walabot.msg import rawSignal
+from walabot.msg import signal
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -35,7 +35,7 @@ def callback(data):
 
 def processAscan():
     rospy.init_node('processAscan', anonymous=True)
-    rospy.Subscriber("rawSignal", rawSignal, callback)
+    rospy.Subscriber("rawSignal", signal, callback)
     plt.ion()
     plt.show()
     rospy.spin()
