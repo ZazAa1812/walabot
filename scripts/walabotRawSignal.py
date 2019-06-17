@@ -16,13 +16,13 @@ wlbt = load_source('WalabotAPI', modulePath)
 wlbt.Init()
 
 def DataCollect():
-    num = 4
+    num = 3
      # wlbt.SetArenaX - input parameters
     xArenaMin, xArenaMax, xArenaRes = -10, 10, 0.5
     # wlbt.SetArenaY - input parameters
     yArenaMin, yArenaMax, yArenaRes = -10, 10, 0.5
     # wlbt.SetArenaZ - input parameters
-    zArenaMin, zArenaMax, zArenaRes = 5, 11, 0.5
+    zArenaMin, zArenaMax, zArenaRes = 3, 11, 0.5
 
     # Initializes walabot lib
     wlbt.SetSettingsFolder()
@@ -87,7 +87,7 @@ def DataCollect():
     #convert np.array to list for publishing
     #averagebackground = temp.tolist()
     #print(averagebackground)
-    
+    print("Calibration complete")
  
     while not rospy.is_shutdown():
         rospy.sleep(2.0)
@@ -99,7 +99,10 @@ def DataCollect():
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
         pub.publish(rawSignalArray)
-        rospy.loginfo(rawSignalArray.amplitude)
+        maxRaw = max(newAmplitude)
+        minRaw = min(newAmplitude)
+        rospy.loginfo(maxRaw)
+        rospy.loginfo(minRaw)
 
 if __name__ == '__main__':
     try:
