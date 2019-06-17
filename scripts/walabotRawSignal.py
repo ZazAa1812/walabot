@@ -16,7 +16,8 @@ wlbt = load_source('WalabotAPI', modulePath)
 wlbt.Init()
 
 def DataCollect():
-    num = 3
+    pair1 = 34
+    pair2 = 101
      # wlbt.SetArenaX - input parameters
     xArenaMin, xArenaMax, xArenaRes = -10, 10, 0.5
     # wlbt.SetArenaY - input parameters
@@ -52,52 +53,91 @@ def DataCollect():
     
     #Calibrating#
     print("Calibrating")
+    # Calibrating pair 1
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background1 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background2 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background3 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background4 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background5 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background6 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background7 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background8 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background9 = targets[0]
     wlbt.Trigger()
-    targets = wlbt.GetSignal((pair[num]))
+    targets = wlbt.GetSignal((pair[pair1]))
     background10 = targets[0]
-    #calculate average background noise
-    averagebackground = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
-    #convert np.array to list for publishing
-    #averagebackground = temp.tolist()
-    #print(averagebackground)
+    averagebackgroundpair1 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
+    
+    # Calibrating pair 2
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background1 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background2 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background3 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background4 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background5 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background6 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background7 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background8 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background9 = targets[0]
+    wlbt.Trigger()
+    targets = wlbt.GetSignal((pair[pair2]))
+    background10 = targets[0]
+    averagebackgroundpair2 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
+
     print("Calibration complete")
  
     while not rospy.is_shutdown():
         rospy.sleep(2.0)
         wlbt.Trigger()
-        targets = wlbt.GetSignal((pair[num]))
-        tempNewAmplitude = np.asarray(targets[0]) - averagebackground
+        # Pair 1
+        targets1 = wlbt.GetSignal((pair[pair1]))
+        tempNewAmplitude1 = np.asarray(targets1[0]) - averagebackgroundpair1
+        # Pair 2
+        targets2 = wlbt.GetSignal((pair[pair2]))
+        tempNewAmplitude2 = np.asarray(targets2[0]) - averagebackgroundpair2
+        # Averaging between two pairs
+        tempNewAmplitude = (tempNewAmplitude1 + tempNewAmplitude2)/2
         newAmplitude = tempNewAmplitude.tolist()
+        # Make raw signal object to contain message
         rawSignalArray = rawSignal()
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
+        # Publishing average raw signal data between two pair with background noise remove
         pub.publish(rawSignalArray)
         maxRaw = max(newAmplitude)
         minRaw = min(newAmplitude)
