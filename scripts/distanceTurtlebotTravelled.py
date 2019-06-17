@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Int32
+from walabot.msg import distanceTravelled
+val = []
+temp = 0
 def distanceTrav():
-    pub = rospy.Publisher('distanceTurtleTravelled', Int32, queue_size=1000)
+    global val,temp
+    pub = rospy.Publisher('distanceTurtleTravelled', distanceTravelled, queue_size=1000)
     rospy.init_node('distanceTurtle', anonymous=True)
     rate = rospy.Rate(1) # 1hz
-    dist = 1
+    dist = distanceTravelled()
     while not rospy.is_shutdown():
+        val.append(temp)
+        dist.distance = val
         rospy.loginfo(dist)
         pub.publish(dist)
         rate.sleep()
-        dist = dist+1
+        temp = temp+1
+
 if __name__ == '__main__':
     try:
         distanceTrav()
