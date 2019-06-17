@@ -141,7 +141,7 @@ def DataCollect():
         rawSignalArray.amplitude = newAmplitude
         # Publishing average raw signal data between two pair with background noise remove
         pub.publish(rawSignalArray)
-        print("Publising raw signal data")
+        print("Publishing raw signal data")
         # Checking for max. Just testing to calculate depth
         # maxRaw = max(newAmplitude)
         # minRaw = min(newAmplitude)
