@@ -21,16 +21,21 @@ def callback(data):
     tinitial = timeAxis[0]
     # travel_speed_pulse, v
     v = (c/math.sqrt(dielectric_constant))*10**-9
+    print('ni v sia')
     print(v)
     print(tcurrent - tinitial)
     depth = (tcurrent - tinitial)/(2*v)*1000
     print(depth)
 
+# def callback(data):
+#     amplitude = data.amplitude
+#     timeAxis = data.time
 
-def processAscan():
+
+def processBscan():
     rospy.init_node('processBscan', anonymous=True)
     rospy.Subscriber("rawSignal", rawSignal, callback)
     rospy.spin()
         
 if __name__ == '__main__':
-    processAscan()
+    processBscan()
