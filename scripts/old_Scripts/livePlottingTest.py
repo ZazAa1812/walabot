@@ -8,10 +8,10 @@ dist = 0
 x = []
 y = []
 z = []
+a = 0
 
 def callback(data):
-    global line1,x,y,z
-  
+    global x,y,z,a
     raw = np.asarray(data.amplitude)
     temp = abs(raw)
     amp = temp.tolist()
@@ -19,19 +19,18 @@ def callback(data):
     x.append(tempDist)
     y.append(amp)
     z.append(amp)
-    z = np.asarray(z)
+    z = zip(*z)
     print(len(y))
     print(len(y[0]))
-    a = np.random.rand(1,6)
 
     # Plotting
     plt.ion()
     plt.clf()
     plt.plot()
-    plt.pcolor(z)
+    plt.pcolor(z,cmap = 'gist_gray')
     plt.title('default')
     plt.tight_layout()
-    z = z.tolist()
+    z = []
     plt.pause(0.5)
     plt.show()
     
