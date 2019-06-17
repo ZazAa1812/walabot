@@ -8,15 +8,16 @@ dist = 0
 
 def callback(data):
     amp = data.amplitude
-    x = livePlot()
+    x = xdistance()
     print x
+    
 
-def livePlot():
+def xdistance():
     global dist
     dist = dist + 1
     return dist
         
 if __name__ == '__main__':
-    rospy.init_node('processBscan', anonymous=True)
+    rospy.init_node('livePlot', anonymous=True)
     rawSignal = rospy.Subscriber("rawSignal", signal, callback)
     rospy.spin()
