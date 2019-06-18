@@ -4,22 +4,18 @@ from walabot.msg import signal
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = []
 y = []
 z = []
-a = 0
 
 def callback(data):
-    global x,y,z,a
+    global y,z
     # convert amplitude value into array for computing
     rawAmp = data.amplitude
     rawAmpArr = np.asarray(rawAmp)
     # get absolute value for second plot and turn back to list
     absRaw = abs(rawAmpArr)
     absAmp = absRaw.tolist()
-    tempDist = xdistance()
     # updating list for plotting
-    x.append(tempDist)
     y.append(rawAmp)
     z.append(absAmp)
     # inverting amplitude value to get a vertical plot
@@ -51,11 +47,6 @@ def callback(data):
     z = []
     plt.pause(0.5)
     plt.show()
-
-def xdistance():
-    global dist
-    dist = dist + 1
-    return dist
         
 if __name__ == '__main__':
     rospy.init_node('livePlot', anonymous=True)
