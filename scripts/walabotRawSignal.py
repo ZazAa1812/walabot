@@ -11,20 +11,28 @@ import numpy as np
 modulePath = join('/usr', 'share', 'walabot', 'python', 'WalabotAPI.py')
 wlbt = load_source('WalabotAPI', modulePath)
 i = 0
-
+depth = 0
 #Initiate walabot
 wlbt.Init()
 
 def DataCollect():
-    global i
+    global i,depth
     pair1 = 34
     pair2 = 101
+    depth1 = 0.0119371      #Depth 0cm which is 2.5cm from Walabot that is separated by a medium
+    depth2  = 0.00570357    #Depth 2.5cm
+    depth3  = 0.00488826    #Depth 5.0cm
+    depth4  = 0.00346715    #Depth 7.5cm
+    d1 = 0
+    d2 = 2.5
+    d3 = 5.0
+    d4 = 7.5
      # wlbt.SetArenaX - input parameters
     xArenaMin, xArenaMax, xArenaRes = -10, 10, 0.5
     # wlbt.SetArenaY - input parameters
     yArenaMin, yArenaMax, yArenaRes = -10, 10, 0.5
     # wlbt.SetArenaZ - input parameters
-    zArenaMin, zArenaMax, zArenaRes = 3, 11, 0.5
+    zArenaMin, zArenaMax, zArenaRes = 2.5, 13, 0.5
 
     # Initializes walabot lib
     wlbt.SetSettingsFolder()
@@ -34,7 +42,7 @@ def DataCollect():
 
     # Set sensor profile to short range imaging for penetrative scan
     wlbt.SetProfile(wlbt.PROF_SHORT_RANGE_IMAGING)
-
+    wlbt.SetAdvancedParameter(wlbt.PARAM_DIELECTRIC_CONSTANT,1)
     # Set arena by Cartesian coordinates, with arena resolution
     wlbt.SetArenaX(xArenaMin, xArenaMax, xArenaRes)
     wlbt.SetArenaY(yArenaMin, yArenaMax, yArenaRes)
@@ -121,31 +129,77 @@ def DataCollect():
     averagebackgroundpair2 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
 
     print("Calibration complete")
-
-    ##########End Calibration#########
+    ###########End Calibration########
     
     ###########Main Function##########
     while not rospy.is_shutdown():
         rospy.sleep(0.1)
         wlbt.Trigger()
+        targets = wlbt.GetSignal((pair[pair1]))
         # Pair 1
         targets1 = wlbt.GetSignal((pair[pair1]))
         tempNewAmplitude1 = np.asarray(targets1[0]) - averagebackgroundpair1
         # Pair 2
         targets2 = wlbt.GetSignal((pair[pair2]))
         tempNewAmplitude2 = np.asarray(targets2[0]) - averagebackgroundpair2
-        # Averaging between two pairs
+        # Averaging between two pairs data
         tempNewAmplitude = (tempNewAmplitude1 + tempNewAmplitude2)/2
         newAmplitude = tempNewAmplitude.tolist()
+        #######Experiment 1: Depth Calculation##########
+        valAmp = max(tempNewAmplitude)
+        indexx = newAmplitude.index(valAmp)
+        t = np.asarray(targets[1])
+        t = t[indexx]
+        print("##################Data Starts Here##################")
+        print("Index")
+        print(indexx)
+        print("Max Amplitude")
+        print (valAmp)
+        print("Time")
+        print (t)
+
+        ####
+        # if valAmp <= depth1 and valAmp > depth2:
+        #     depth = ((valAmp - depth1)*d2 + (valAmp-depth2)*d1)/(depth2 - depth1)
+        # elif valAmp <= depth2 and valAmp > depth3:
+        #     depth = ((valAmp - depth2)*d3 + (valAmp-depth3)*d2)/(depth3 - depth2)
+        # elif valAmp <= depth3 and valAmp > depth4:
+        #     depth = ((valAmp - depth3)*d4 + (valAmp-depth4)*d3)/(depth4 - depth3)
+        # else:
+        #     depth = 0
+        #####
+        # if valAmp <= depth1 and valAmp > depth2:
+        #     a = -2.5*(0.0119371-valAmp)
+        #     b = -0.00623353
+        #     c = a/b
+        #     depth = c
+        # elif valAmp <= depth2 and valAmp > depth3:
+        #     a = -2.5
+        # elif valAmp <= depth3 and valAmp > depth4:
+        #     a = 0.00142111
+        #     b = (depth3 - valAmp)
+        #     c = - 2.5 * b
+        #     d = c - (a*2.5)
+        #     e = (d - (a*2.5))
+        #     depth = e/-a
+        # else:
+        #     depth = 0
+
+        # print("Depth")
+        # print (depth)
+        ################################################
         # Make raw signal object to contain message
         rawSignalArray = signal()
-        targets = wlbt.GetSignal((pair[pair1]))
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
         # Publishing average raw signal data between two pair with background noise remove
         pub.publish(rawSignalArray)
-        print("Publishing raw signal data")
-        print (i)
+        # print("Publishing raw signal data")
+        # print (i)
+        targets1 = []
+        targets2 = []
+        targets = []
+        newAmplitude = []
         i = i + 1
 
 if __name__ == '__main__':

@@ -4,8 +4,10 @@ from walabot.msg import signal
 import matplotlib.pyplot as plt
 import numpy as np
 
+processed_data = []
+
 def callback(data):
-    global start_flag, processed_data
+    global processed_data
     signalAxis = data.amplitude
     timeAxis = data.time
     temp = abs(np.asarray(signalAxis))
@@ -20,7 +22,7 @@ def callback(data):
     plt.title('Ascan Graph')
     plt.xlabel('Time Axis')
     plt.ylabel('Amplitude')
-    plt.ylim([-0.1,0.1])
+    # plt.ylim([-0.05,0.05])
     # Plotting absolute Ascan
     plt.subplot(2,1,2)
     plt.plot()
@@ -28,7 +30,7 @@ def callback(data):
     plt.title('Absolute Ascan Graph')
     plt.xlabel('Time Axis')
     plt.ylabel('Absolute Amplitude')
-    plt.ylim([0,0.1])
+    # plt.ylim([0,0.05])
     plt.subplots_adjust(hspace=0.5)
     plt.draw()
     plt.pause(0.01)

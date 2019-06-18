@@ -53,6 +53,7 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    signal.msg
    distanceTravelled.msg
+   dataBscan.msg
  )
 
 ## Generate services in the 'srv' folder
