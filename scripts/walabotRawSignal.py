@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from __future__ import print_function  # WalabotAPI works on both Python 2 an 3.
 from sys import platform
 from os import system
@@ -11,11 +10,13 @@ import numpy as np
 
 modulePath = join('/usr', 'share', 'walabot', 'python', 'WalabotAPI.py')
 wlbt = load_source('WalabotAPI', modulePath)
+i = 0
 
 #Initiate walabot
 wlbt.Init()
 
 def DataCollect():
+    global i
     pair1 = 34
     pair2 = 101
      # wlbt.SetArenaX - input parameters
@@ -124,7 +125,7 @@ def DataCollect():
     
     ###########Main Function##########
     while not rospy.is_shutdown():
-        rospy.sleep(2.0)
+        rospy.sleep(0.1)
         wlbt.Trigger()
         # Pair 1
         targets1 = wlbt.GetSignal((pair[pair1]))
@@ -142,11 +143,8 @@ def DataCollect():
         # Publishing average raw signal data between two pair with background noise remove
         pub.publish(rawSignalArray)
         print("Publishing raw signal data")
-        # Checking for max. Just testing to calculate depth
-        # maxRaw = max(newAmplitude)
-        # minRaw = min(newAmplitude)
-        # rospy.loginfo(maxRaw)
-        # rospy.loginfo(minRaw)
+        print (i)
+        i = i + 1
 
 if __name__ == '__main__':
     try:
