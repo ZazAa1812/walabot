@@ -53,6 +53,6 @@ def move(speed, distance, is_forward):
 if __name__ == '__main__':
     try:
         rospy.init_node('turtle_motion',anonymous=True)
-        move(0.05,0.5,True)
+        move(0.05,1.0,True)
     except rospy.ROSInterruptException or KeyboardInterrupt:
         pass

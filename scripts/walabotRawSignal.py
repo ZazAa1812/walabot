@@ -133,7 +133,7 @@ def DataCollect():
     
     ###########Main Function##########
     while not rospy.is_shutdown():
-        rospy.sleep(1)
+        rospy.sleep(0.05)
         wlbt.Trigger()
         targets = wlbt.GetSignal((pair[pair1]))
         # Pair 1
