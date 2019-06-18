@@ -18,8 +18,9 @@ def callback(data):
     tempDist = xdistance()
     x.append(tempDist)
     y.append(amp)
-    z.append(amp)
+    z.append(temp)
     z = zip(*z)
+    z_min, z_max = min(np.asarray(z)), max(np.asarray(z))
     print(len(y))
     print(len(y[0]))
 
@@ -27,7 +28,8 @@ def callback(data):
     plt.ion()
     plt.clf()
     plt.plot()
-    plt.pcolor(z,cmap = 'gist_gray')
+    plt.ylim(3000,0)
+    plt.pcolor(z,cmap = 'gist_gray',vmin=z_min, vmax=z_max)
     plt.title('default')
     plt.tight_layout()
     z = []
