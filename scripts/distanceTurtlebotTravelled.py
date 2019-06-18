@@ -37,6 +37,7 @@ def move(speed, distance, is_forward):
         t1 =  rospy.Time.now().to_sec()
         # Calculating distance travelled
         distance_moved = (t1-t0) * speed
+        distance_moved = round(distance_moved,2)
         temp.append(distance_moved)
         distance_message.distance = temp
         distance_publisher.publish(distance_message)
@@ -49,23 +50,9 @@ def move(speed, distance, is_forward):
     velocity_message.linear.x =0
     velocity_publisher.publish(velocity_message)
 
-# def distanceTrav():
-#     global val,temp
-#     pub = rospy.Publisher('distanceTurtleTravelled', distanceTravelled, queue_size=1000)
-#     rospy.init_node('distanceTurtle', anonymous=True)
-#     rate = rospy.Rate(1) # 1hz
-#     dist = distanceTravelled()
-#     while not rospy.is_shutdown():
-#         val.append(temp)
-#         dist.distance = val
-#         rospy.loginfo(dist)
-#         pub.publish(dist)
-#         rate.sleep()
-#         temp = temp+1
-
 if __name__ == '__main__':
     try:
         rospy.init_node('turtle_motion',anonymous=True)
-        move(0.1,0.5,True)
+        move(0.05,0.5,True)
     except rospy.ROSInterruptException or KeyboardInterrupt:
         pass

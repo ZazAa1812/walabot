@@ -54,7 +54,7 @@ def DataCollect():
     
     ################Calibrating#######################
     print("Calibrating")
-    # Calibrating pair 1
+    # # Calibrating pair 1
     wlbt.Trigger()
     targets = wlbt.GetSignal((pair[pair1]))
     background1 = targets[0]
@@ -121,6 +121,7 @@ def DataCollect():
     averagebackgroundpair2 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 
 
     print("Calibration complete")
+
     ##########End Calibration#########
     
     ###########Main Function##########
@@ -138,6 +139,7 @@ def DataCollect():
         newAmplitude = tempNewAmplitude.tolist()
         # Make raw signal object to contain message
         rawSignalArray = signal()
+        targets = wlbt.GetSignal((pair[pair1]))
         rawSignalArray.time = targets[1]
         rawSignalArray.amplitude = newAmplitude
         # Publishing average raw signal data between two pair with background noise remove
