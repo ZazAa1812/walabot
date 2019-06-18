@@ -19,14 +19,14 @@ def DataCollect():
     global i,depth
     pair1 = 34
     pair2 = 101
-    depth1 = 0.0119371      #Depth 0cm which is 2.5cm from Walabot that is separated by a medium
-    depth2  = 0.00570357    #Depth 2.5cm
-    depth3  = 0.00488826    #Depth 5.0cm
-    depth4  = 0.00346715    #Depth 7.5cm
-    d1 = 0
-    d2 = 2.5
-    d3 = 5.0
-    d4 = 7.5
+    # depth1 = 0.0119371      #Depth 0cm which is 2.5cm from Walabot that is separated by a medium
+    # depth2  = 0.00570357    #Depth 2.5cm
+    # depth3  = 0.00488826    #Depth 5.0cm
+    # depth4  = 0.00346715    #Depth 7.5cm
+    # d1 = 0
+    # d2 = 2.5
+    # d3 = 5.0
+    # d4 = 7.5
      # wlbt.SetArenaX - input parameters
     xArenaMin, xArenaMax, xArenaRes = -10, 10, 0.5
     # wlbt.SetArenaY - input parameters
@@ -133,7 +133,7 @@ def DataCollect():
     
     ###########Main Function##########
     while not rospy.is_shutdown():
-        rospy.sleep(0.1)
+        rospy.sleep(1)
         wlbt.Trigger()
         targets = wlbt.GetSignal((pair[pair1]))
         # Pair 1

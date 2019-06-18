@@ -42,7 +42,7 @@ def callback(data):
     print (len(z))
     if len(z)==2:
         i = "shutdown"
-        plt.savefig('.pdf',bbox_inches='tight')
+        plt.savefig('WalabotBscan.pdf',bbox_inches='tight')
         rospy.signal_shutdown(i)
         
 if __name__ == '__main__':
