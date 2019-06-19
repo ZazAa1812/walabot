@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from walabot.msg import distanceTravelled
 import message_filters
+import math
 
 y = []
 z = []
@@ -17,13 +18,12 @@ def callback(rawSignaldata, distanceTravelleddata):
     # convert amplitude value into array for computing
     raw = rawSignaldata.amplitude
     distraw = distanceTravelleddata.distance
-    print(len(distraw))
-    # print raw
-    # print dist
     rawAmp = raw[0:2000]
     # updating list for plotting
     z.append(rawAmp)
-    dist.append(round(distraw,2)
+    dist = list(distraw)
+    print(z)
+    print(type(dist))
     # inverting amplitude value to get a vertical plot
     z = zip(*z)
     y_min, y_max = np.asarray(z).min(), np.asarray(z).max()
@@ -31,7 +31,6 @@ def callback(rawSignaldata, distanceTravelleddata):
     if i==0:
         plt.figure(figsize=(15,8))
         i = i + 1
-    # if distraw % 2 == 0:
     plt.clf()
     plt.ylim(2000,0)
     plt.xlim(0,50)
@@ -49,6 +48,8 @@ def callback(rawSignaldata, distanceTravelleddata):
         shutcommand = "shutdown"
         plt.savefig('WalabotBscan.pdf',bbox_inches='tight')
         rospy.signal_shutdown(shutcommand)
+    # clear for new list
+    dist = []
         
 if __name__ == '__main__':
     rospy.init_node('processBscan', anonymous=True)
@@ -57,5 +58,4 @@ if __name__ == '__main__':
     distanceTurtleTravdata = message_filters.Subscriber('distanceTravelled',distanceTravelled)
     ts = message_filters.ApproximateTimeSynchronizer([rawSignaldata, distanceTurtleTravdata],10,0.1)
     ts.registerCallback(callback)
-    # rospy.Subscriber("rawSignal",signal,callback)
     rospy.spin()

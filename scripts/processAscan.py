@@ -10,6 +10,7 @@ def callback(data):
     global processed_data
     signalAxis = data.amplitude
     timeAxis = data.time
+    # print(type(signalAxis))
     temp = abs(np.asarray(signalAxis))
     absSignal = temp.tolist()
     # Current data being processed and will be publish

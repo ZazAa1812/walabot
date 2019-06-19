@@ -19,6 +19,7 @@ def callback(data):
     # updating list for plotting
     z.append(rawAmp)
     dist.append(i)
+    print(dist)
     # inverting amplitude value to get a vertical plot
     z = zip(*z)
     y_min, y_max = np.asarray(z).min(), np.asarray(z).max()

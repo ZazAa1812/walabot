@@ -30,7 +30,7 @@ def move(speed, distance, is_forward):
     distance_publisher = rospy.Publisher('distanceTravelled',distanceTravelled,queue_size=10)
     t0 = rospy.Time.now().to_sec()
 
-    while True :
+    while not rospy.is_shutdown() :
         rospy.loginfo("Turtlesim moves forwards")
         velocity_publisher.publish(velocity_message)
         loop_rate.sleep()
@@ -41,7 +41,7 @@ def move(speed, distance, is_forward):
         temp.append(distance_moved)
         distance_message.distance = temp
         distance_publisher.publish(distance_message)
-        print  distance_moved
+        print  temp
         # rospy.loginfo(distance_message)          
         if  not (distance_moved<distance):
             rospy.loginfo("reached")
