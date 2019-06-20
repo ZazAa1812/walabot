@@ -169,16 +169,7 @@ def DataCollect():
     wlbt.Trigger()
     targets = wlbt.GetSignal((pair[pair3]))
     background9 = targets[0]
-    wlbt.Trigger()        # if i == 0:
-        #     wb = Workbook()
-        #     sheet1 = wb.add_sheet('Sheet 1')
-        #     # sheet1.write(0,0, 'Number of Scan')
-        #     sheet1.write(0,1, 'Depth')
-        #     # sheet1.write(0,1, 'Signal Amplitude')
-        #     # sheet1.write(0,2, 'Time (ns)')
-        #     # sheet1.write(0,3, 'Data Index')
-        #     i = i + 1
-        # sheet1.write(i,0,i)
+    wlbt.Trigger() 
     targets = wlbt.GetSignal((pair[pair3]))
     background10 = targets[0]
     averagebackgroundpair3 = (np.asarray(background1) + np.asarray(background2) + np.asarray(background3) + np.asarray(background4) + np.asarray(background5) + np.asarray(background6) + np.asarray(background7) + np.asarray(background8) + np.asarray(background9) + np.asarray(background10)) /10 

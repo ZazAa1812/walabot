@@ -28,7 +28,7 @@ def callback(data):
     # Plotting raw signal
     if i==0:
         plt.figure(figsize=(15,8))
-        wb = Workbook()
+        # wb = Workbook()
         # sheet1 = wb.add_sheet('Sheet 1')
         # sheet1.write(0,0, 'Timestamp')
         # sheet1.write(0,1, 'Distance')
@@ -38,7 +38,7 @@ def callback(data):
     plt.pcolormesh(z,cmap = 'gist_gray',vmin=y_min, vmax=y_max)
     plt.title('Bscan')
     plt.ylabel('Number of sample data')
-    plt.xlabel('Mock distance Travelled')
+    plt.xlabel('Distance Travelled')
     plt.xticks(np.arange(len(dist)),dist,rotation = 45)
     plt.draw() 
     plt.pause(0.0000001)
@@ -53,7 +53,7 @@ def callback(data):
     i = i + 0.02
     if len(z)==40:
         i = "shutdown"
-        plt.savefig('src/walabot/data/dataBscan/WalabotBscanFirst.png',bbox_inches='tight')
+        plt.savefig('src/walabot/data/dataBscan/WalabotBscanThird.png',bbox_inches='tight')
         rospy.signal_shutdown(i)
 if __name__ == '__main__':
     rospy.init_node('processBscan', anonymous=True)
