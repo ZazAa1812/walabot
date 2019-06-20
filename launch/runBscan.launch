@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="walabot" type="walabotRawSignal.py" name="walabotRawSignal" output = "screen"/>
+    <node pkg="walabot" type="graphBscan.py" name="graphBscan" output = "screen"/>
+    <node pkg="walabot" type="distanceTurtlebotTravelled.py" name="distanceTurtlebotTravelled" output = "screen"/>
+</launch>
