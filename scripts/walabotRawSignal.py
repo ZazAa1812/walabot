@@ -7,8 +7,8 @@ from os.path import join
 import rospy
 from walabot.msg import signal
 import numpy as np
-import xlwt
-from xlwt import Workbook
+# import xlwt
+# from xlwt import Workbook
 
 modulePath = join('/usr', 'share', 'walabot', 'python', 'WalabotAPI.py')
 wlbt = load_source('WalabotAPI', modulePath)
