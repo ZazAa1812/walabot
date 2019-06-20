@@ -29,9 +29,9 @@ def callback(data):
     if i==0:
         plt.figure(figsize=(15,8))
         wb = Workbook()
-        sheet1 = wb.add_sheet('Sheet 1')
-        sheet1.write(0,0, 'Timestamp')
-        sheet1.write(0,1, 'Distance')
+        # sheet1 = wb.add_sheet('Sheet 1')
+        # sheet1.write(0,0, 'Timestamp')
+        # sheet1.write(0,1, 'Distance')
     plt.clf()
     plt.ylim(2000,0)
     plt.xlim(0,40)
@@ -53,7 +53,7 @@ def callback(data):
     i = i + 0.02
     if len(z)==40:
         i = "shutdown"
-        plt.savefig('WalabotBscan.png',bbox_inches='tight')
+        plt.savefig('src/walabot/data/dataBscan/WalabotBscanFirst.png',bbox_inches='tight')
         rospy.signal_shutdown(i)
 if __name__ == '__main__':
     rospy.init_node('processBscan', anonymous=True)
