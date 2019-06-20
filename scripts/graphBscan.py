@@ -42,9 +42,8 @@ def callback(data):
     i = i + 0.02
     if len(z)==50:
         i = "shutdown"
-        plt.savefig('WalabotBscan.pdf',bbox_inches='tight')
+        plt.savefig('WalabotBscan.png',bbox_inches='tight')
         rospy.signal_shutdown(i)
-        
 if __name__ == '__main__':
     rospy.init_node('processBscan', anonymous=True)
     plt.ion()
