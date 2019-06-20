@@ -36,10 +36,10 @@ def callback(data):
     plt.draw()
     plt.pause(0.01)
     j = j + 1
-    if j==20:
-        ishut = "shutdown"
-        plt.savefig('src/walabot/data/depthcalibration/fiveAnt/BC5PairObject.png',bbpx_inches='tight')
-        rospy.signal_shutdown(ishut)
+#     if j==100:
+#         ishut = "shutdown"
+#         # plt.savefig('src/walabot/data/depthcalibration/fiveAnt/BC5PairObject.png',bbpx_inches='tight')
+#         rospy.signal_shutdown(ishut)
 def processAscan():
     rospy.init_node('processAscan', anonymous=True)
     rospy.Subscriber("rawSignal", signal, callback)

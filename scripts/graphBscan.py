@@ -34,7 +34,7 @@ def callback(data):
         # sheet1.write(0,1, 'Distance')
     plt.clf()
     plt.ylim(2000,0)
-    plt.xlim(0,40)
+    plt.xlim(0,100)
     plt.pcolormesh(z,cmap = 'gist_gray',vmin=y_min, vmax=y_max)
     plt.title('Bscan')
     plt.ylabel('Number of sample data')
@@ -51,9 +51,9 @@ def callback(data):
     # sheet1.write(j,1,i)
     # j = j +1
     i = i + 0.02
-    if len(z)==40:
+    if len(z)==100:
         i = "shutdown"
-        plt.savefig('src/walabot/data/dataBscan/WalabotBscanThird.png',bbox_inches='tight')
+        # plt.savefig('src/walabot/data/dataBscan/WalabotBscanThird.png',bbox_inches='tight')
         rospy.signal_shutdown(i)
 if __name__ == '__main__':
     rospy.init_node('processBscan', anonymous=True)

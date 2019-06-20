@@ -24,7 +24,7 @@ def DataCollect():
     pair1 = 2   # 1 -> 4
     pair2 = 34  # 5 -> 8
     pair3 = 66  # 12 -> 9
-    pair4 = 101 # 16 -> 15
+    pair4 = 101 # 13 -> 16
     pair5 = 135 # 18 -> 17
 
     ########## Depth Estimation Value ##############
