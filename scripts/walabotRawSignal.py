@@ -20,14 +20,15 @@ wlbt.Init()
 
 def DataCollect():
     global i,depth,j
-    #antenna pair
+    # Antenna pair. Refer the walabot datasheet
     pair1 = 2   # 1 -> 4
     pair2 = 34  # 5 -> 8
     pair3 = 66  # 12 -> 9
     pair4 = 101 # 13 -> 16
     pair5 = 135 # 18 -> 17
 
-    ########## Depth Estimation Value ##############
+    ########## Experiment 3: Depth Estimation Value ##############
+    # This does not work. Require manual calibration each time.
     # Uncomment only when running depth
     depth1 = 0.0256278951      #Depth 0cm which is 2.5cm from Walabot that is separated by a medium
     depth2  = 0.0083904274    #Depth 2cm
@@ -45,7 +46,7 @@ def DataCollect():
     # wlbt.SetArenaY - 34nput parameters
     yArenaMin, yArenaMax, yArenaRes = -10, 10, 0.5
     # wlbt.SetArenaZ - 34nput parameters
-    zArenaMin, zArenaMax, zArenaRes = 2.5, 14, 0.5
+    zArenaMin, zArenaMax, zArenaRes = 4, 14, 0.5
 
     # Initializes walab34t lib
     wlbt.SetSettingsFolder()
@@ -270,7 +271,7 @@ def DataCollect():
         tempNewAmplitude = (tempNewAmplitude1 + tempNewAmplitude2+tempNewAmplitude3+tempNewAmplitude4+tempNewAmplitude5)/5
         newAmplitude = tempNewAmplitude.tolist()
 
-        #######Experiment 1: Depth Calculation###########
+        #######Experiment 3: Depth Calculation###########
         valAmp = max(tempNewAmplitude)
         indexx = newAmplitude.index(valAmp)
         t = np.asarray(targets[1])
@@ -283,7 +284,7 @@ def DataCollect():
         print("Time")
         print (t)
 
-        ################ Write data of max amplitude for each scan for depth calibration #################
+        ################ Experiment 3: Write data of max amplitude for each scan for depth calibration #################
         # if i == 0:
         #     wb = Workbook()
         #     sheet1 = wb.add_sheet('Sheet 1')
@@ -300,7 +301,7 @@ def DataCollect():
         
         #############################################################################################################
 
-        ################# Depth estimation ##################################
+        ################## Experiment 3 Depth estimation ##################################
         if valAmp <= depth1 and valAmp > depth2:
             depth = ((valAmp - depth1)*d2 + (valAmp-depth2)*d1)/(depth2 - depth1)
         elif valAmp <= depth2 and valAmp > depth3:
@@ -333,6 +334,7 @@ def DataCollect():
         targets = []
         newAmplitude = []
         i = i + 1
+        # Experiment 3 #
         # j = j + 1
         # if j==50:
         #     ishut = "shutdown"

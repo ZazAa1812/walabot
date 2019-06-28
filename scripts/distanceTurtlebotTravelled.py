@@ -65,6 +65,6 @@ if __name__ == '__main__':
     try:
         rospy.init_node('turtle_motion',anonymous=True)
         rospy.sleep(5)
-        move(0.1,0.8,True)
+        move(0.1,0.58,True)
     except rospy.ROSInterruptException or KeyboardInterrupt:
         pass

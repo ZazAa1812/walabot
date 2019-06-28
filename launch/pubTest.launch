@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="walabot" type="pub1.py" name="pub1" output = "screen"/>
+    <node pkg="walabot" type="pub2.py" name="pub2" output = "screen"/>
+    <!-- <node pkg="walabot" type="distanceTurtlebotTravelled.py" name="distanceTurtlebotTravelled" output = "screen"/> -->
+</launch>

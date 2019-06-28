@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# testing Approximate time synchronizer
 import rospy
 from std_msgs.msg import String
 def talker():
@@ -7,7 +7,7 @@ def talker():
     rospy.init_node('talker', anonymous=True)
     rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
-        hello_str = "%s" % rospy.get_time()
+        hello_str = "Hi"
         rospy.loginfo(hello_str)
         pub.publish(hello_str)
         rate.sleep()
